@@ -1,0 +1,1 @@
+Across the whole org, what were the total billed charges (USD) for claims where the payer is Medicare?

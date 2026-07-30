@@ -1,0 +1,2 @@
+Reply with only the number that results from 6 * 7. No explanation, no units,
+no formatting — just the number.

@@ -1,0 +1,1 @@
+Data quality flag for Metro Childrens — how many of their encounters have a discharge date earlier than the admit date? Need the count.

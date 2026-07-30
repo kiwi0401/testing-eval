@@ -1,0 +1,209 @@
+{
+  "name": "northwind",
+  "description": "Northwind RCM warehouse \u2014 10 silent data-quality defects + controls. Marts sit at service-line grain, so naive aggregates over-count.",
+  "defaults": {
+    "tolerance": 0.15,
+    "state": "broken"
+  },
+  "questions": [
+    {
+      "id": "summit_charges",
+      "kind": "query",
+      "state": "broken",
+      "gt": "12557516113",
+      "title": "Summit Ortho \u2014 total billed charges (USD) across all claims",
+      "why": "fan-out",
+      "checks": [
+        {
+          "name": "answer",
+          "value": 12557516113
+        }
+      ]
+    },
+    {
+      "id": "summit_claim_count",
+      "kind": "query",
+      "state": "broken",
+      "gt": "360618",
+      "title": "Summit Ortho \u2014 distinct claim count",
+      "why": "fan-out",
+      "checks": [
+        {
+          "name": "answer",
+          "value": 360618
+        }
+      ]
+    },
+    {
+      "id": "harbor_claim_count",
+      "kind": "query",
+      "state": "broken",
+      "gt": "298455",
+      "title": "Harbor Health \u2014 distinct claim count",
+      "why": "dedup (fans downstream joins)",
+      "checks": [
+        {
+          "name": "answer",
+          "value": 298455
+        }
+      ]
+    },
+    {
+      "id": "harbor_charges",
+      "kind": "query",
+      "state": "broken",
+      "gt": "10355678750",
+      "title": "Harbor Health \u2014 total billed charges (USD)",
+      "why": "dedup (fans downstream joins)",
+      "checks": [
+        {
+          "name": "answer",
+          "value": 10355678750
+        }
+      ]
+    },
+    {
+      "id": "northstar_charges",
+      "kind": "query",
+      "state": "broken",
+      "gt": "8734413028",
+      "title": "Northstar Medical \u2014 total billed charges (USD)",
+      "why": "schema drift",
+      "checks": [
+        {
+          "name": "answer",
+          "value": 8734413028
+        }
+      ]
+    },
+    {
+      "id": "valley_diag_count",
+      "kind": "query",
+      "state": "broken",
+      "gt": "939220",
+      "title": "Valley Care \u2014 diagnosis record count",
+      "why": "version drift",
+      "checks": [
+        {
+          "name": "answer",
+          "value": 939220
+        }
+      ]
+    },
+    {
+      "id": "metro_negative_los",
+      "kind": "query",
+      "state": "broken",
+      "gt": "3649",
+      "title": "Metro General \u2014 count of discharges dated before admission",
+      "why": "dirty-row clamp",
+      "checks": [
+        {
+          "name": "answer",
+          "value": 3649
+        }
+      ]
+    },
+    {
+      "id": "metro_denial_rate",
+      "kind": "query",
+      "state": "broken",
+      "gt": "11.0",
+      "title": "Metro General \u2014 claim denial rate (%)",
+      "why": "denial mis-encode",
+      "checks": [
+        {
+          "name": "denial_rate_pct",
+          "value": 11.0,
+          "tolerance": 0.15
+        }
+      ]
+    },
+    {
+      "id": "riverside_charges",
+      "kind": "query",
+      "state": "broken",
+      "gt": "5544542046",
+      "title": "Riverside Clinic \u2014 total billed charges (USD)",
+      "why": "money unit",
+      "checks": [
+        {
+          "name": "answer",
+          "value": 5544542046
+        }
+      ]
+    },
+    {
+      "id": "medicare_charges",
+      "kind": "query",
+      "state": "broken",
+      "gt": "5668552527",
+      "title": "Org-wide \u2014 total charges billed to Medicare",
+      "why": "payer xref (compound)",
+      "checks": [
+        {
+          "name": "answer",
+          "value": 5668552527
+        }
+      ]
+    },
+    {
+      "id": "cedar_claim_count",
+      "kind": "control",
+      "state": "broken",
+      "gt": "226613",
+      "title": "Cedar Family Practice \u2014 distinct claim count (CONTROL)",
+      "why": "none (control)",
+      "checks": [
+        {
+          "name": "answer",
+          "value": 226613
+        }
+      ]
+    },
+    {
+      "id": "bayview_charges",
+      "kind": "control",
+      "state": "broken",
+      "gt": "7175420145",
+      "title": "Bayview Pediatrics \u2014 total billed charges (USD) (CONTROL)",
+      "why": "none (control)",
+      "checks": [
+        {
+          "name": "answer",
+          "value": 7175420145
+        }
+      ]
+    },
+    {
+      "id": "sandbox_alive",
+      "kind": "control",
+      "title": "Sandbox liveness \u2014 arithmetic only",
+      "why": "No warehouse access needed; isolates pod startup and the agent loop from any data dependency.",
+      "gt": "42",
+      "checks": [
+        {
+          "name": "answer",
+          "value": 42,
+          "tolerance": 0
+        }
+      ],
+      "state": "broken"
+    },
+    {
+      "id": "mcp_reachable",
+      "kind": "control",
+      "title": "Gateway reachable over MCP",
+      "why": "Proves egress from the sandbox to the gateway and that the MCP tools are wired, without asserting on warehouse contents.",
+      "gt": "1",
+      "checks": [
+        {
+          "name": "connections_listed",
+          "value": 1,
+          "tolerance": 0
+        }
+      ],
+      "state": "broken"
+    }
+  ]
+}

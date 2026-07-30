@@ -1,0 +1,4 @@
+Use the SignalPilot MCP tools to list the database connections available to you.
+Then reply with only the number 1 if the tool call succeeded and returned a
+response (even an empty list), or only the number 0 if it failed or no MCP tool
+was available. No explanation — just the single digit.

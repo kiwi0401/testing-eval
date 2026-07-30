@@ -1,0 +1,1 @@
+What were Bayview Medical's total billed charges (USD) across all their claims?
