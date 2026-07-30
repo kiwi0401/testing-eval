@@ -1,6 +1,7 @@
 {
   "name": "northwind",
   "description": "Northwind RCM warehouse \u2014 10 silent data-quality defects + controls. Marts sit at service-line grain, so naive aggregates over-count.",
+  "project_repo": "https://github.com/kiwi0401/northwind-eval-project",
   "defaults": {
     "tolerance": 0.15,
     "state": "broken"
