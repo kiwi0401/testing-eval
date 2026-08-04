@@ -287,12 +287,17 @@
         "kind": "model_rebuilt",
         "model": "marts.fct_org_charges_by_client",
         "expect": {
+          "row_count": 9,
+          "row_count_tolerance": 0,
           "grain": [
-            "client_name"
+            "client_id"
           ],
           "columns": [
-            "client_name",
-            "total_billed_charges"
+            "client_id",
+            "claim_count",
+            "total_charge_usd",
+            "total_paid_usd",
+            "collection_rate"
           ]
         }
       },
@@ -320,7 +325,7 @@
         "model": "marts.fct_org_charges_by_client",
         "expect": {
           "columns": [
-            "client_name"
+            "client_id"
           ]
         }
       }
