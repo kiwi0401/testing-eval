@@ -1,4 +1,12 @@
-The table marts.fct_org_charges_by_client has been dropped from this warehouse branch.
-Rebuild it from the upstream models so it has one row per client with the total billed charges.
-Use the dbt project in your working directory as the source of truth for how the model is defined.
-When you are done, state the number of rows in the rebuilt table.
+The table marts.fct_org_charges_by_client has been DROPPED from this warehouse branch.
+
+Your job is to CREATE THE TABLE again, not to compute the answer in a query.
+You have write access to this branch. Build it with SQL, for example:
+  CREATE TABLE marts.fct_org_charges_by_client AS SELECT ...
+
+The dbt project in your working directory defines this model - read
+models/marts/_org/fct_org_charges_by_client.sql and reproduce its output at
+the same grain (one row per client) with the same columns.
+
+When finished, verify with SELECT count(*) FROM marts.fct_org_charges_by_client
+and report that number.
