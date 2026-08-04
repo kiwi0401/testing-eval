@@ -1,0 +1,4 @@
+The table marts.fct_org_charges_by_client has been dropped from this warehouse branch.
+Rebuild it from the upstream models so it has one row per client with the total billed charges.
+Use the dbt project in your working directory as the source of truth for how the model is defined.
+When you are done, state the number of rows in the rebuilt table.

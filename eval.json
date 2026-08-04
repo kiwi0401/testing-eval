@@ -4,16 +4,24 @@
   "project_repo": "https://github.com/kiwi0401/northwind-eval-project",
   "defaults": {
     "tolerance": 0.15,
-    "state": "broken"
+    "class": "read"
   },
-  "questions": [
+  "setup": {
+    "timeout_seconds": 900
+  },
+  "tasks": [
     {
       "id": "summit_charges",
+      "class": "read",
       "kind": "query",
-      "state": "broken",
-      "gt": "12557516113",
       "title": "Summit Ortho \u2014 total billed charges (USD) across all claims",
       "why": "fan-out",
+      "prompt": "prompts/summit_charges.txt",
+      "covers": [
+        "marts.fct_summit__claims",
+        "marts.fct_org_claims"
+      ],
+      "gt": "12557516113",
       "checks": [
         {
           "name": "answer",
@@ -23,11 +31,15 @@
     },
     {
       "id": "summit_claim_count",
+      "class": "read",
       "kind": "query",
-      "state": "broken",
-      "gt": "360618",
       "title": "Summit Ortho \u2014 distinct claim count",
       "why": "fan-out",
+      "prompt": "prompts/summit_claim_count.txt",
+      "covers": [
+        "marts.fct_summit__claims"
+      ],
+      "gt": "360618",
       "checks": [
         {
           "name": "answer",
@@ -37,11 +49,15 @@
     },
     {
       "id": "harbor_claim_count",
+      "class": "read",
       "kind": "query",
-      "state": "broken",
-      "gt": "298455",
       "title": "Harbor Health \u2014 distinct claim count",
       "why": "dedup (fans downstream joins)",
+      "prompt": "prompts/harbor_claim_count.txt",
+      "covers": [
+        "marts.fct_harbor__claims"
+      ],
+      "gt": "298455",
       "checks": [
         {
           "name": "answer",
@@ -51,11 +67,16 @@
     },
     {
       "id": "harbor_charges",
+      "class": "read",
       "kind": "query",
-      "state": "broken",
-      "gt": "10355678750",
       "title": "Harbor Health \u2014 total billed charges (USD)",
       "why": "dedup (fans downstream joins)",
+      "prompt": "prompts/harbor_charges.txt",
+      "covers": [
+        "marts.fct_harbor__claims",
+        "marts.fct_org_claims"
+      ],
+      "gt": "10355678750",
       "checks": [
         {
           "name": "answer",
@@ -65,11 +86,16 @@
     },
     {
       "id": "northstar_charges",
+      "class": "read",
       "kind": "query",
-      "state": "broken",
-      "gt": "8734413028",
       "title": "Northstar Medical \u2014 total billed charges (USD)",
       "why": "schema drift",
+      "prompt": "prompts/northstar_charges.txt",
+      "covers": [
+        "marts.fct_northstar__claims",
+        "marts.fct_org_claims"
+      ],
+      "gt": "8734413028",
       "checks": [
         {
           "name": "answer",
@@ -79,11 +105,15 @@
     },
     {
       "id": "valley_diag_count",
+      "class": "read",
       "kind": "query",
-      "state": "broken",
-      "gt": "939220",
       "title": "Valley Care \u2014 diagnosis record count",
       "why": "version drift",
+      "prompt": "prompts/valley_diag_count.txt",
+      "covers": [
+        "marts.fct_valley__claims"
+      ],
+      "gt": "939220",
       "checks": [
         {
           "name": "answer",
@@ -93,11 +123,16 @@
     },
     {
       "id": "metro_negative_los",
+      "class": "read",
       "kind": "query",
-      "state": "broken",
-      "gt": "3649",
       "title": "Metro General \u2014 count of discharges dated before admission",
       "why": "dirty-row clamp",
+      "prompt": "prompts/metro_negative_los.txt",
+      "covers": [
+        "marts.fct_metro__encounters",
+        "marts.fct_org_los_distribution"
+      ],
+      "gt": "3649",
       "checks": [
         {
           "name": "answer",
@@ -107,11 +142,16 @@
     },
     {
       "id": "metro_denial_rate",
+      "class": "read",
       "kind": "query",
-      "state": "broken",
-      "gt": "11.0",
       "title": "Metro General \u2014 claim denial rate (%)",
       "why": "denial mis-encode",
+      "prompt": "prompts/metro_denial_rate.txt",
+      "covers": [
+        "marts.fct_metro__denials",
+        "marts.fct_org_denial_rate_by_payer"
+      ],
+      "gt": "11.0",
       "checks": [
         {
           "name": "denial_rate_pct",
@@ -122,11 +162,16 @@
     },
     {
       "id": "riverside_charges",
+      "class": "read",
       "kind": "query",
-      "state": "broken",
-      "gt": "5544542046",
       "title": "Riverside Clinic \u2014 total billed charges (USD)",
       "why": "money unit",
+      "prompt": "prompts/riverside_charges.txt",
+      "covers": [
+        "marts.fct_riverside__claims",
+        "marts.fct_org_claims"
+      ],
+      "gt": "5544542046",
       "checks": [
         {
           "name": "answer",
@@ -136,11 +181,16 @@
     },
     {
       "id": "medicare_charges",
+      "class": "read",
       "kind": "query",
-      "state": "broken",
-      "gt": "5668552527",
       "title": "Org-wide \u2014 total charges billed to Medicare",
       "why": "payer xref (compound)",
+      "prompt": "prompts/medicare_charges.txt",
+      "covers": [
+        "marts.fct_org_claims",
+        "marts.dim_payer"
+      ],
+      "gt": "5668552527",
       "checks": [
         {
           "name": "answer",
@@ -150,11 +200,15 @@
     },
     {
       "id": "cedar_claim_count",
+      "class": "read",
       "kind": "control",
-      "state": "broken",
-      "gt": "226613",
       "title": "Cedar Family Practice \u2014 distinct claim count (CONTROL)",
       "why": "none (control)",
+      "prompt": "prompts/cedar_claim_count.txt",
+      "covers": [
+        "marts.fct_cedar__claims"
+      ],
+      "gt": "226613",
       "checks": [
         {
           "name": "answer",
@@ -164,11 +218,16 @@
     },
     {
       "id": "bayview_charges",
+      "class": "read",
       "kind": "control",
-      "state": "broken",
-      "gt": "7175420145",
       "title": "Bayview Pediatrics \u2014 total billed charges (USD) (CONTROL)",
       "why": "none (control)",
+      "prompt": "prompts/bayview_charges.txt",
+      "covers": [
+        "marts.fct_bayview__claims",
+        "marts.fct_org_claims"
+      ],
+      "gt": "7175420145",
       "checks": [
         {
           "name": "answer",
@@ -178,9 +237,11 @@
     },
     {
       "id": "sandbox_alive",
+      "class": "read",
       "kind": "control",
       "title": "Sandbox liveness \u2014 arithmetic only",
       "why": "No warehouse access needed; isolates pod startup and the agent loop from any data dependency.",
+      "prompt": "prompts/sandbox_alive.txt",
       "gt": "42",
       "checks": [
         {
@@ -188,14 +249,15 @@
           "value": 42,
           "tolerance": 0
         }
-      ],
-      "state": "broken"
+      ]
     },
     {
       "id": "mcp_reachable",
+      "class": "read",
       "kind": "control",
       "title": "Gateway reachable over MCP",
       "why": "Proves egress from the sandbox to the gateway and that the MCP tools are wired, without asserting on warehouse contents.",
+      "prompt": "prompts/mcp_reachable.txt",
       "gt": "1",
       "checks": [
         {
@@ -203,8 +265,65 @@
           "value": 1,
           "tolerance": 0
         }
+      ]
+    },
+    {
+      "id": "rebuild_org_charges_by_client",
+      "class": "write",
+      "kind": "build",
+      "title": "Rebuild marts.fct_org_charges_by_client after it is dropped",
+      "why": "per-task setup mutates the branch; the agent must rebuild at the right grain",
+      "prompt": "prompts/rebuild_org_charges_by_client.txt",
+      "setup": "tasks/rebuild_org_charges_by_client/setup.sh",
+      "teardown": "tasks/rebuild_org_charges_by_client/teardown.sh",
+      "builds": [
+        "marts.fct_org_charges_by_client"
       ],
-      "state": "broken"
+      "covers": [
+        "marts.fct_org_charges_by_client",
+        "marts.fct_org_claims"
+      ],
+      "grade": {
+        "kind": "model_rebuilt",
+        "model": "marts.fct_org_charges_by_client",
+        "expect": {
+          "grain": [
+            "client_name"
+          ],
+          "columns": [
+            "client_name",
+            "total_billed_charges"
+          ]
+        }
+      },
+      "capture": {
+        "tables": [
+          "marts.fct_org_charges_by_client"
+        ],
+        "mode": "fingerprint+sample",
+        "sample_rows": 1000
+      }
+    },
+    {
+      "id": "rebuild_skipped_control",
+      "class": "write",
+      "kind": "build",
+      "title": "Control: the mart is dropped and deliberately not rebuilt",
+      "why": "model_rebuilt must catch a missing table, not pass vacuously",
+      "prompt": "prompts/rebuild_skipped_control.txt",
+      "setup": "tasks/rebuild_skipped_control/setup.sh",
+      "builds": [
+        "marts.fct_org_charges_by_client"
+      ],
+      "grade": {
+        "kind": "model_rebuilt",
+        "model": "marts.fct_org_charges_by_client",
+        "expect": {
+          "columns": [
+            "client_name"
+          ]
+        }
+      }
     }
   ]
 }
